@@ -1,0 +1,26 @@
+import uuid
+import threading
+from django.conf import settings
+
+
+NO_REQUEST_ID = "none"  # Used if no request ID is available
+
+
+local = threading.local()
+
+
+class RequestIDMiddleware(object):
+
+    def process_request(self, request):
+        request_id = self._get_request_id(request)
+        local.request_id = request_id
+        request.id = request_id
+
+    def _get_request_id(self, request):
+        request_id_header = getattr(settings, 'LOG_REQUEST_ID_HEADER')
+        if request_id_header:
+            return request.META.get(request_id_header, NO_REQUEST_ID)
+        return self._generate_id
+
+    def _generate_id(self):
+        return uuid.uuid4().hex
