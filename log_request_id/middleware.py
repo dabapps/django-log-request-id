@@ -1,9 +1,7 @@
 import uuid
 import threading
 from django.conf import settings
-
-
-NO_REQUEST_ID = "none"  # Used if no request ID is available
+from log_request_id import REQUEST_ID_HEADER_SETTING, NO_REQUEST_ID
 
 
 local = threading.local()
@@ -17,7 +15,7 @@ class RequestIDMiddleware(object):
         request.id = request_id
 
     def _get_request_id(self, request):
-        request_id_header = getattr(settings, 'LOG_REQUEST_ID_HEADER')
+        request_id_header = getattr(settings, REQUEST_ID_HEADER_SETTING)
         if request_id_header:
             return request.META.get(request_id_header, NO_REQUEST_ID)
         return self._generate_id
