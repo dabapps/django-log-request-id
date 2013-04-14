@@ -13,6 +13,8 @@ SECRET_KEY = 'secret'
 
 ROOT_URLCONF = "testproject.urls"
 
+INSTALLED_APPS = ["log_request_id"]
+
 MIDDLEWARE_CLASSES = (
     'log_request_id.middleware.RequestIDMiddleware',
     # ... other middleware goes here
@@ -32,16 +34,16 @@ LOGGING = {
         },
     },
     'handlers': {
-        'console': {
+        'mock': {
             'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
+            'class': 'testproject.handler.MockLoggingHandler',
             'filters': ['request_id'],
             'formatter': 'standard',
         },
     },
     'loggers': {
         'testproject': {
-            'handlers': ['console'],
+            'handlers': ['mock'],
             'level': 'DEBUG',
             'propagate': False,
         },
