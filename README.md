@@ -92,7 +92,7 @@ logger = logging.getLogger(__name__)
 logger.debug("A wild log message appears!")
 ```
 
-If you wish to use an ID provided as a request argument, add the following setting:
+If you wish to use an ID provided in a request header, add the following setting:
 
 ```python
 LOG_REQUEST_ID_HEADER = "HTTP_HEROKU_REQUEST_ID"
