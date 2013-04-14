@@ -7,12 +7,12 @@ import os
 import sys
 
 
-name = 'django-reusable-app'
-package = 'myproject'
-description = ''
-url = 'http://github.com/.../.../'
-author = ''
-author_email = ''
+name = 'django-log-request-id'
+package = 'log_request_id'
+description = 'Django middleware and log filter to attach a unique ID to every log message generated as part of a request'
+url = 'https://github.com/dabapps/django-log-request-id/'
+author = 'Jamie Matthews'
+author_email = 'jamie.matthews@gmail.com'
 license = 'BSD'
 install_requires = []
 
