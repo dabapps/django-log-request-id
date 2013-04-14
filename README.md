@@ -9,10 +9,10 @@ Example
 -------
 
 ```
-DEBUG    [2013-04-12 08:11:59,346] [33031a43fc244539895fef70c433337e] myproject.apps.myapp.views: Doing something in a view, about to create a new form
-DEBUG    [2013-04-12 08:11:59,346] [33031a43fc244539895fef70c433337e] myproject.apps.myapp.forms: The form validated successfully!
-DEBUG    [2013-04-12 08:11:59,346] [33031a43fc244539895fef70c433337e] myproject.apps.myapp.models: Doing some model magic
-DEBUG    [2013-04-12 08:11:59,346] [33031a43fc244539895fef70c433337e] myproject.apps.myapp.views: Redirecting to form success page
+DEBUG [33031a43fc244539895fef70c433337e] myproject.apps.myapp.views: Doing something in a view
+DEBUG [33031a43fc244539895fef70c433337e] myproject.apps.myapp.forms: The form validated successfully!
+DEBUG [33031a43fc244539895fef70c433337e] myproject.apps.myapp.models: Doing some model magic
+DEBUG [33031a43fc244539895fef70c433337e] myproject.apps.myapp.views: Redirecting to form success page
 ```
 
 Why?
