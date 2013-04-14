@@ -1,9 +1,5 @@
 import logging
-import threading
-from log_request_id import NO_REQUEST_ID
-
-
-local = threading.local()
+from log_request_id import local, NO_REQUEST_ID
 
 
 class RequestIDFilter(logging.Filter):
