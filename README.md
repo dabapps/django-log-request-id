@@ -18,17 +18,17 @@ DEBUG    [2013-04-12 08:11:59,346] [33031a43fc244539895fef70c433337e] myproject.
 Why?
 ----
 
-So you can grep (or otherwise search) a set of logs for a high-traffic application to isolate out all messages associated with a single request.
+So you can grep (or otherwise search) a set of logs for a high-traffic application to isolate all messages associated with a single request.
 
 How?
 ----
 
-**The request ID is stored in a thread local**. This is not generally considered best practice for Django applications, but seems to be the only viable approach in this case. Pull requests with a better ideas are welcome.
+**The request ID is stored in a thread local**. Use of thread locals is not generally considered best practice for Django applications, but seems to be the only viable approach in this case. Pull requests with a better ideas are welcome.
 
 Any other neat features?
 ------------------------
 
-In some cases, components further up the HTTP stack such as load balancers or proxies may generate request IDs. For example, [Heroku's experimental `http-request-id` feature](https://devcenter.heroku.com/articles/http-request-id) adds a header to the request called `HTTP_HEROKU_REQUEST_ID`. If such a header is present (and configured in your settings), this ID will be used (instead of generating one).
+In some cases, components further up the HTTP stack such as load balancers or proxies may generate request IDs. For example, [Heroku's experimental http-request-id feature](https://devcenter.heroku.com/articles/http-request-id) adds a header to the request called `HTTP_HEROKU_REQUEST_ID`. If such a header is present (and configured in your settings, see below), this ID will be used (instead of generating one).
 
 The ID also gets added to the `HttpRequest` object that is handed to your views, in case you need to use it in your application.
 
