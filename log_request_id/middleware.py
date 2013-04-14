@@ -15,7 +15,7 @@ class RequestIDMiddleware(object):
         request.id = request_id
 
     def _get_request_id(self, request):
-        request_id_header = getattr(settings, REQUEST_ID_HEADER_SETTING)
+        request_id_header = getattr(settings, REQUEST_ID_HEADER_SETTING, None)
         if request_id_header:
             return request.META.get(request_id_header, NO_REQUEST_ID)
         return self._generate_id
