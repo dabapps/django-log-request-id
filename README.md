@@ -46,7 +46,7 @@ MIDDLEWARE_CLASSES = (
 )
 ```
 
-Add the `log_request_id.filters.RequestIDFilter` to your LOGGING setting. You'll also need to update your `formatters` to include the new `request_id` variable, add a handler to output the messages (eg to the console), and finally attach the handler to your application's logger.
+Add the `log_request_id.filters.RequestIDFilter` to your `LOGGING` setting. You'll also need to update your `formatters` to include a format with the new `request_id` variable, add a handler to output the messages (eg to the console), and finally attach the handler to your application's logger.
 
 If none of the above made sense, study [Django's logging documentation](https://docs.djangoproject.com/en/dev/topics/logging/).
 
