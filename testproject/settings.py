@@ -30,7 +30,7 @@ LOGGING = {
     },
     'formatters': {
         'standard': {
-            'format': '%(levelname)-8s [%(asctime)s] [%(request_id)s] [%(user_id)s] %(name)s: %(message)s'
+            'format': '%(levelname)-8s [%(asctime)s] [%(request_id)s] %(name)s: %(message)s'
         },
     },
     'handlers': {
