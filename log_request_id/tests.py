@@ -28,3 +28,18 @@ class RequestIDLoggingTestCase(TestCase):
             self.assertEqual(request.id, 'some_request_id')
             test_view(request)
             self.assertTrue('some_request_id' in self.handler.messages[0])
+
+    def test_log_requests(self):
+
+        class DummyUser(object):
+            pk = 'fake_pk'
+
+        with self.settings(LOG_REQUESTS=True):
+            request = self.factory.get('/')
+            request.user = DummyUser()
+            middleware = RequestIDMiddleware()
+            middleware.process_request(request)
+            response = test_view(request)
+            middleware.process_response(request, response)
+            self.assertEqual(len(self.handler.messages), 2)
+            self.assertTrue('fake_pk' in self.handler.messages[1])

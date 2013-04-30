@@ -47,5 +47,10 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
+        'log_request_id.middleware': {
+            'handlers': ['mock'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
     }
 }

@@ -98,6 +98,11 @@ If you wish to use an ID provided in a request header, add the following setting
 LOG_REQUEST_ID_HEADER = "HTTP_HEROKU_REQUEST_ID"
 ```
 
+Logging all requests
+--------------------
+
+The `RequestIDMiddleware` also has the ability to log all requests received by the application, including some useful information such as the user ID (if present). To enable this feature, add `LOG_REQUESTS = True` to your settings. The messages are sent to the `log_request_id.middleware` logger at `INFO` level.
+
 License
 -------
 

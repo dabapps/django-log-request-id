@@ -1,6 +1,10 @@
 import uuid
+import logging
 from django.conf import settings
-from log_request_id import local, REQUEST_ID_HEADER_SETTING, NO_REQUEST_ID
+from log_request_id import local, REQUEST_ID_HEADER_SETTING, LOG_REQUESTS_SETTING, NO_REQUEST_ID
+
+
+logger = logging.getLogger(__name__)
 
 
 class RequestIDMiddleware(object):
@@ -9,6 +13,25 @@ class RequestIDMiddleware(object):
         request_id = self._get_request_id(request)
         local.request_id = request_id
         request.id = request_id
+
+    def process_response(self, request, response):
+
+        if not getattr(settings, LOG_REQUESTS_SETTING, False):
+            return response
+
+        user = getattr(request, 'user', None)
+        user_id = getattr(user, 'pk', None) or getattr(user, 'id', None)
+
+        message = 'method=%s path=%s status=%s'
+        args = (request.method, request.path, response.status_code)
+
+        if user_id:
+            message += ' user=%s'
+            args += (user_id,)
+
+        logger.info(message, *args)
+
+        return response
 
     def _get_request_id(self, request):
         request_id_header = getattr(settings, REQUEST_ID_HEADER_SETTING, None)
