@@ -19,6 +19,10 @@ class RequestIDMiddleware(object):
         if not getattr(settings, LOG_REQUESTS_SETTING, False):
             return response
 
+        # Don't log favicon
+        if 'favicon' in request.path:
+            return response
+
         user = getattr(request, 'user', None)
         user_id = getattr(user, 'pk', None) or getattr(user, 'id', None)
 
