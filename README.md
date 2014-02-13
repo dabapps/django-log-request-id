@@ -5,6 +5,8 @@ django-log-request-id
 
 **Author:** Jamie Matthews, [@j4mie](https://twitter.com/j4mie)
 
+[![Build Status](https://travis-ci.org/dabapps/django-log-request-id.png?branch=master)](https://travis-ci.org/dabapps/django-log-request-id)
+
 Example
 -------
 
@@ -28,7 +30,7 @@ How?
 Any other neat features?
 ------------------------
 
-In some cases, components further up the HTTP stack such as load balancers or proxies may generate request IDs. For example, [Heroku's experimental http-request-id feature](https://devcenter.heroku.com/articles/http-request-id) adds a header to the request called `HTTP_HEROKU_REQUEST_ID`. If such a header is present (and configured in your settings, see below), this ID will be used (instead of generating one).
+In some cases, components further up the HTTP stack such as load balancers or proxies may generate request IDs. For example, [Heroku's http-request-id feature](https://devcenter.heroku.com/articles/http-request-id) adds a header to the request called `X_REQUEST_ID`. If such a header is present (and configured in your settings, see below), this ID will be used (instead of generating one).
 
 The ID also gets added to the `HttpRequest` object that is handed to your views, in case you need to use it in your application.
 
