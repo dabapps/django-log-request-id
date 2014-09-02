@@ -100,6 +100,12 @@ If you wish to use an ID provided in a request header, add the following setting
 LOG_REQUEST_ID_HEADER = "HTTP_X_REQUEST_ID"
 ```
 
+If you wish to include the request id in the response headers, add the following setting:
+
+```python
+REQUEST_ID_RESPONSE_HEADER = "RESPONSE_HEADER_NAME"
+```
+
 Logging all requests
 --------------------
 

@@ -43,3 +43,22 @@ class RequestIDLoggingTestCase(TestCase):
             middleware.process_response(request, response)
             self.assertEqual(len(self.handler.messages), 2)
             self.assertTrue('fake_pk' in self.handler.messages[1])
+
+    def test_response_header_unset(self):
+        with self.settings(LOG_REQUEST_ID_HEADER='REQUEST_ID_HEADER'):
+            request = self.factory.get('/')
+            request.META['REQUEST_ID_HEADER'] = 'some_request_id'
+            middleware = RequestIDMiddleware()
+            middleware.process_request(request)
+            response = test_view(request)
+            self.assertFalse(response.has_header('REQUEST_ID'))
+
+    def test_response_header_set(self):
+        with self.settings(LOG_REQUEST_ID_HEADER='REQUEST_ID_HEADER', REQUEST_ID_RESPONSE_HEADER='REQUEST_ID'):
+            request = self.factory.get('/')
+            request.META['REQUEST_ID_HEADER'] = 'some_request_id'
+            middleware = RequestIDMiddleware()
+            middleware.process_request(request)
+            response = test_view(request)
+            middleware.process_response(request, response)
+            self.assertTrue(response.has_header('REQUEST_ID'))

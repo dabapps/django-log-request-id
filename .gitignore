@@ -8,3 +8,9 @@ MANIFEST
 docs/build/
 gh-pages/
 *egg-info/*
+
+.project
+
+.pydevproject
+
+.settings/org.eclipse.core.resources.prefs
