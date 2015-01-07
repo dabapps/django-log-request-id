@@ -61,7 +61,7 @@ class RequestIDPassthroughTestCase(TestCase):
             middleware.process_request(request)
             self.assertEqual(request.id, 'some_request_id')
             session = Session()
-            outgoing = Request()
+            outgoing = Request('get', 'http://nowhere')
             session.prepare_request(outgoing)
             self.assertEqual(
                 outgoing.headers['REQUEST_ID_HEADER'],
