@@ -4,14 +4,19 @@ from django.core.exceptions import ImproperlyConfigured
 
 from log_request_id import local, REQUEST_ID_HEADER_SETTING, NO_REQUEST_ID
 
-if hasattr(settings, REQUEST_ID_HEADER_SETTING):
-    REQUEST_ID_HEADER = getattr(settings, REQUEST_ID_HEADER_SETTING)
-else:
-    raise ImproperlyConfigured("The %s setting must be configured in order to "
-                               "use %s", REQUEST_ID_HEADER_SETTING, __name__)
-
 
 class Session(BaseSession):
+    def __init__(self, *args, **kwargs):
+        if hasattr(settings, REQUEST_ID_HEADER_SETTING):
+            self.request_id_header = getattr(settings,
+                                             REQUEST_ID_HEADER_SETTING)
+        else:
+            raise ImproperlyConfigured("The %s setting must be configured in "
+                                       "order to use %s" % (
+                                           REQUEST_ID_HEADER_SETTING, __name__
+                                       ))
+        super(Session, self).__init__(*args, **kwargs)
+
     def prepare_request(self, request):
         """Include the request ID, if available, in the outgoing request"""
         try:
@@ -19,7 +24,7 @@ class Session(BaseSession):
         except AttributeError:
             request_id = NO_REQUEST_ID
 
-        if REQUEST_ID_HEADER and request_id != NO_REQUEST_ID:
-            request.headers[REQUEST_ID_HEADER] = request_id
+        if self.request_id_header and request_id != NO_REQUEST_ID:
+            request.headers[self.request_id_header] = request_id
 
-        super(Session, self).prepare_request(request)
+        return super(Session, self).prepare_request(request)

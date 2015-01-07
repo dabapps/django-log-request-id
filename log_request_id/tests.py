@@ -71,4 +71,5 @@ class RequestIDPassthroughTestCase(TestCase):
     def test_misconfigured_for_sessions(self):
         def inner():
             from log_request_id.session import Session  # noqa
+            Session()
         self.assertRaises(ImproperlyConfigured, inner)
