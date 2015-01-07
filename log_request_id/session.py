@@ -21,3 +21,5 @@ class Session(BaseSession):
 
         if REQUEST_ID_HEADER and request_id != NO_REQUEST_ID:
             request.headers[REQUEST_ID_HEADER] = request_id
+
+        super(Session, self).prepare_request(request)
