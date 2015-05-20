@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+
 from setuptools import setup
 import re
 import os
 import sys
+
 
 
 name = 'django-log-request-id'
@@ -14,7 +17,7 @@ url = 'https://github.com/dabapps/django-log-request-id/'
 author = 'Jamie Matthews'
 author_email = 'jamie.matthews@gmail.com'
 license = 'BSD'
-install_requires = []
+install_requires = ["django>=1.3"]
 
 
 def get_version(package):
@@ -53,9 +56,9 @@ def get_package_data(package):
 if sys.argv[-1] == 'publish':
     os.system("python setup.py sdist upload")
     args = {'version': get_version(package)}
-    print "You probably want to also tag the version now:"
-    print "  git tag -a %(version)s -m 'version %(version)s'" % args
-    print "  git push --tags"
+    print("You probably want to also tag the version now:")
+    print("  git tag -a %(version)s -m 'version %(version)s'" % args)
+    print("  git push --tags")
     sys.exit()
 
 
