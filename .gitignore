@@ -8,3 +8,4 @@ MANIFEST
 docs/build/
 gh-pages/
 *egg-info/*
+.tox
