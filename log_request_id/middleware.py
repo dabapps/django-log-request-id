@@ -1,7 +1,9 @@
-import uuid
 import logging
+import uuid
+
 from django.conf import settings
-from log_request_id import local, REQUEST_ID_HEADER_SETTING, LOG_REQUESTS_SETTING, NO_REQUEST_ID
+from log_request_id import local, REQUEST_ID_HEADER_SETTING, LOG_REQUESTS_SETTING, NO_REQUEST_ID, \
+    REQUEST_ID_RESPONSE_HEADER_SETTING
 
 
 logger = logging.getLogger(__name__)
@@ -15,6 +17,8 @@ class RequestIDMiddleware(object):
         request.id = request_id
 
     def process_response(self, request, response):
+        if getattr(settings, REQUEST_ID_RESPONSE_HEADER_SETTING, False) and getattr(request, 'id', None):
+            response[getattr(settings, REQUEST_ID_RESPONSE_HEADER_SETTING)] = request.id
 
         if not getattr(settings, LOG_REQUESTS_SETTING, False):
             return response
