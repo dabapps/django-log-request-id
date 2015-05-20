@@ -5,7 +5,7 @@ django-log-request-id
 
 **Author:** Jamie Matthews, [@j4mie](https://twitter.com/j4mie)
 
-[![Build Status](https://travis-ci.org/osantana/django-log-request-id.png?branch=master)](https://travis-ci.org/osantana/django-log-request-id)
+[![Build Status](https://travis-ci.org/dabapps/django-log-request-id.png?branch=master)](https://travis-ci.org/dabapps/django-log-request-id)
 
 Example
 -------
