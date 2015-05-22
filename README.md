@@ -34,6 +34,11 @@ In some cases, components further up the HTTP stack such as load balancers or pr
 
 The ID also gets added to the `HttpRequest` object that is handed to your views, in case you need to use it in your application.
 
+If you need to pass on the ID to other services in a multi-tier architecture,
+the log_request_id.session module contains a wrapper for requests.Session which
+will include the ID in outgoing requests, using the same header as configured in
+your settings.
+
 Installation and usage
 ----------------------
 
@@ -110,6 +115,16 @@ Logging all requests
 --------------------
 
 The `RequestIDMiddleware` also has the ability to log all requests received by the application, including some useful information such as the user ID (if present). To enable this feature, add `LOG_REQUESTS = True` to your settings. The messages are sent to the `log_request_id.middleware` logger at `INFO` level.
+
+Passing on the ID
+-----------------
+
+```python
+from log_request_id.session import Session
+session = Session()
+session.get('http://myservice.myapp.com/')
+```
+
 
 License
 -------
