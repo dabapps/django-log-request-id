@@ -30,7 +30,7 @@ How?
 Any other neat features?
 ------------------------
 
-In some cases, components further up the HTTP stack such as load balancers or proxies may generate request IDs. For example, [Heroku's http-request-id feature](https://devcenter.heroku.com/articles/http-request-id) adds a header to the request called `X_REQUEST_ID`. If such a header is present (and configured in your settings, see below), this ID will be used (instead of generating one).
+In some cases, components further up the HTTP stack such as load balancers or proxies may generate request IDs. For example, [Heroku's http-request-id feature](https://devcenter.heroku.com/articles/http-request-id) adds a header to the request called `X_REQUEST_ID`. If such a header is present (and configured in your settings, see below), this ID will be used (instead of generating one). You can configure your settings to use a generated id or return a default request_id when you expect the id in the request header but it is not available.
 
 The ID also gets added to the `HttpRequest` object that is handed to your views, in case you need to use it in your application.
 
@@ -105,6 +105,12 @@ If you wish to use an ID provided in a request header, add the following setting
 LOG_REQUEST_ID_HEADER = "HTTP_X_REQUEST_ID"
 ```
 
+If you wish to fall back to a generated id when you have the `LOG_REQUEST_ID_HEADER` set but is was not provided in the request, add the following setting:
+
+```python
+GENERATE_REQUEST_ID_IF_NOT_IN_HEADER_SETTING = True
+```
+
 If you wish to include the request id in the response headers, add the following setting:
 
 ```python
@@ -133,21 +139,21 @@ Copyright © 2012-2013, DabApps.
 
 All rights reserved.
 
-Redistribution and use in source and binary forms, with or without 
+Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 
-Redistributions of source code must retain the above copyright notice, this 
+Redistributions of source code must retain the above copyright notice, this
 list of conditions and the following disclaimer.
-Redistributions in binary form must reproduce the above copyright notice, this 
-list of conditions and the following disclaimer in the documentation and/or 
+Redistributions in binary form must reproduce the above copyright notice, this
+list of conditions and the following disclaimer in the documentation and/or
 other materials provided with the distribution.
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE 
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
