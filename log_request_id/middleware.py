@@ -38,6 +38,8 @@ class RequestIDMiddleware(object):
             args += (user_id,)
 
         logger.info(message, *args)
+        
+        del local.request_id
 
         return response
 
