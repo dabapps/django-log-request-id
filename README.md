@@ -30,7 +30,7 @@ How?
 Any other neat features?
 ------------------------
 
-In some cases, components further up the HTTP stack such as load balancers or proxies may generate request IDs. For example, [Heroku's http-request-id feature](https://devcenter.heroku.com/articles/http-request-id) adds a header to the request called `X_REQUEST_ID`. If such a header is present (and configured in your settings, see below), this ID will be used (instead of generating one). You can configure your settings to use a generated id or return a default request_id when you expect the id in the request header but it is not available.
+In some cases, components further up the HTTP stack such as load balancers or proxies may generate request IDs. For example, [Heroku's http-request-id feature](https://devcenter.heroku.com/articles/http-request-id) adds a header to the request called `X_REQUEST_ID`. If such a header is present (and configured in your settings, see below), this ID will be used (instead of generating one). You can configure your settings to use a generated ID or return a default request_id when you expect the ID in the request header but it is not available.
 
 The ID also gets added to the `HttpRequest` object that is handed to your views, in case you need to use it in your application.
 
@@ -105,7 +105,7 @@ If you wish to use an ID provided in a request header, add the following setting
 LOG_REQUEST_ID_HEADER = "HTTP_X_REQUEST_ID"
 ```
 
-If you wish to fall back to a generated id when you have the `LOG_REQUEST_ID_HEADER` set but is was not provided in the request, add the following setting:
+If you wish to fall back to a generated ID when you have the `LOG_REQUEST_ID_HEADER` set but is was not provided in the request, add the following setting:
 
 ```python
 GENERATE_REQUEST_ID_IF_NOT_IN_HEADER_SETTING = True
