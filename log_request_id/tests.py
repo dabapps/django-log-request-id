@@ -33,7 +33,7 @@ class RequestIDLoggingTestCase(TestCase):
             self.assertTrue('some_request_id' in self.handler.messages[0])
 
     def test_external_id_missing_in_http_header_should_fallback_to_generated_id(self):
-        with self.settings(LOG_REQUEST_ID_HEADER='REQUEST_ID_HEADER', GENERATE_REQUEST_ID_IF_NOT_IN_HEADER_SETTING=True):
+        with self.settings(LOG_REQUEST_ID_HEADER='REQUEST_ID_HEADER', GENERATE_REQUEST_ID_IF_NOT_IN_HEADER=True):
             request = self.factory.get('/')
             middleware = RequestIDMiddleware()
             middleware.process_request(request)

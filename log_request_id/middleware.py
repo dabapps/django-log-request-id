@@ -52,7 +52,7 @@ class RequestIDMiddleware(object):
             # header request_id but none provided
             default_request_id = NO_REQUEST_ID
 
-            # unless the setting GENERATE_REQUEST_ID_IF_NOT_IN_HEADER_SETTING
+            # unless the setting GENERATE_REQUEST_ID_IF_NOT_IN_HEADER
             # was set, in which case generate an id as normal if it wasn't
             # passed in via the header
             if generate_request_if_not_in_header:

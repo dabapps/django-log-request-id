@@ -108,7 +108,7 @@ LOG_REQUEST_ID_HEADER = "HTTP_X_REQUEST_ID"
 If you wish to fall back to a generated ID when you have the `LOG_REQUEST_ID_HEADER` set but is was not provided in the request, add the following setting:
 
 ```python
-GENERATE_REQUEST_ID_IF_NOT_IN_HEADER_SETTING = True
+GENERATE_REQUEST_ID_IF_NOT_IN_HEADER = True
 ```
 
 If you wish to include the request id in the response headers, add the following setting:
