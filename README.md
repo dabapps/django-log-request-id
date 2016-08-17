@@ -131,6 +131,8 @@ session = Session()
 session.get('http://myservice.myapp.com/')
 ```
 
+You can customise the header used in the outgoing request with the `OUTGOING_REQUEST_ID_HEADER` setting.
+
 
 License
 -------
