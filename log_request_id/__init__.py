@@ -1,7 +1,7 @@
 import threading
 
 
-__version__ = "1.3.0"
+__version__ = "1.3.1"
 
 
 local = threading.local()
