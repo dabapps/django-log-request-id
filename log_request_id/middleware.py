@@ -39,7 +39,10 @@ class RequestIDMiddleware(object):
 
         logger.info(message, *args)
         
-        del local.request_id
+        try:
+            del local.request_id
+        except AttributeError:
+            pass
 
         return response
 
