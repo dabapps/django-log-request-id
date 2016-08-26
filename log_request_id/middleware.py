@@ -2,6 +2,10 @@ import logging
 import uuid
 
 from django.conf import settings
+try:
+    from django.utils.deprecation import MiddlewareMixin
+except ImportError:
+    MiddlewareMixin = object
 from log_request_id import local, REQUEST_ID_HEADER_SETTING, LOG_REQUESTS_SETTING, NO_REQUEST_ID, \
     REQUEST_ID_RESPONSE_HEADER_SETTING, GENERATE_REQUEST_ID_IF_NOT_IN_HEADER_SETTING
 
@@ -9,7 +13,7 @@ from log_request_id import local, REQUEST_ID_HEADER_SETTING, LOG_REQUESTS_SETTIN
 logger = logging.getLogger(__name__)
 
 
-class RequestIDMiddleware(object):
+class RequestIDMiddleware(MiddlewareMixin):
 
     def process_request(self, request):
         request_id = self._get_request_id(request)
