@@ -66,6 +66,8 @@ LOGGING = {
     'filters': {
         'request_id': {
             '()': 'log_request_id.filters.RequestIDFilter'
+            # Optionally change the default `request_id` attribute
+            # 'request_id_attr': 'REQUEST_UID',
         }
     },
     'formatters': {
