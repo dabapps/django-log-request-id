@@ -1,7 +1,7 @@
 import django
 from testproject import views
 
-if django.VERSION[1] < 9:
+if django.VERSION < (1, 9):
     from django.conf.urls import patterns, url
     urlpatterns = patterns(
         '',
