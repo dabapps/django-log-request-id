@@ -1,6 +1,6 @@
 language: python
 python:
-  - "2.7"
+  - "3.6"
 install:
  - pip install tox
  - pip install -r requirements.txt
@@ -11,6 +11,8 @@ env:
  - TOXENV=py27-django18
  - TOXENV=py27-django19
  - TOXENV=py27-django110
- - TOXENV=py35-django18
- - TOXENV=py35-django19
- - TOXENV=py35-django110
+ - TOXENV=py27-django111
+ - TOXENV=py36-django18
+ - TOXENV=py36-django19
+ - TOXENV=py36-django110
+ - TOXENV=py36-django111
