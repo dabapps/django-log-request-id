@@ -105,13 +105,17 @@ If you wish to use an ID provided in a request header, add the following setting
 LOG_REQUEST_ID_HEADER = "HTTP_X_REQUEST_ID"
 ```
 
-If you wish to fall back to a generated ID when you have the `LOG_REQUEST_ID_HEADER` set but is was not provided in the request, add the following setting:
+Setting this value as above will enable requests having the header `X-Request-Id` to be logged with the header value supplied.
+
+Note that this value must conform to the format for [Django META keys](https://docs.djangoproject.com/en/2.1/ref/request-response/#django.http.HttpRequest.META), otherwise it will be ignored.
+
+If you wish to fall back to a generated ID when you have the `LOG_REQUEST_ID_HEADER` set but it was not provided in the request, add the following setting:
 
 ```python
 GENERATE_REQUEST_ID_IF_NOT_IN_HEADER = True
 ```
 
-If you wish to include the request id in the response headers, add the following setting:
+If you wish to include the request id in the response headers, add the following setting, where `RESPONSE_HEADER_NAME` is the name of the custom header you are going to use:
 
 ```python
 REQUEST_ID_RESPONSE_HEADER = "RESPONSE_HEADER_NAME"
@@ -137,7 +141,7 @@ You can customise the header used in the outgoing request with the `OUTGOING_REQ
 License
 -------
 
-Copyright © 2012-2013, DabApps.
+Copyright © 2012-2018, DabApps.
 
 All rights reserved.
 
