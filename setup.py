@@ -17,7 +17,7 @@ url = 'https://github.com/dabapps/django-log-request-id/'
 author = 'Jamie Matthews'
 author_email = 'jamie.matthews@gmail.com'
 license = 'BSD'
-install_requires = ["django>=1.3"]
+install_requires = ["django>=2.0"]
 
 
 def get_version(package):

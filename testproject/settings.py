@@ -15,10 +15,10 @@ ROOT_URLCONF = "testproject.urls"
 
 INSTALLED_APPS = ["log_request_id"]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'log_request_id.middleware.RequestIDMiddleware',
     # ... other middleware goes here
-] + list(global_settings.MIDDLEWARE_CLASSES)
+] + list(global_settings.MIDDLEWARE)
 
 LOGGING = {
     'version': 1,
