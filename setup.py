@@ -19,6 +19,9 @@ author_email = 'jamie.matthews@gmail.com'
 license = 'BSD'
 install_requires = ["django>=1.3"]
 
+with open('README.md') as f:
+    readme = f.read()
+
 
 def get_version(package):
     """
@@ -68,6 +71,8 @@ setup(
     url=url,
     license=license,
     description=description,
+    long_description=readme,
+    long_description_content_type='text/markdown',
     author=author,
     author_email=author_email,
     packages=get_packages(package),
