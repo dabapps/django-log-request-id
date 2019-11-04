@@ -14,11 +14,19 @@ logger = logging.getLogger(__name__)
 
 
 class RequestIDMiddleware(MiddlewareMixin):
-
     def process_request(self, request):
         request_id = self._get_request_id(request)
         local.request_id = request_id
         request.id = request_id
+
+    def get_log_message(self, request, response):
+        user = getattr(request, 'user', None)
+        user_id = getattr(user, 'pk', None) or getattr(user, 'id', None)
+        message =  'method=%s path=%s status=%s' % (request.method, request.path, response.status_code)
+        if user_id:
+            message += ' user=' + str(user_id)
+        return message
+
 
     def process_response(self, request, response):
         if getattr(settings, REQUEST_ID_RESPONSE_HEADER_SETTING, False) and getattr(request, 'id', None):
@@ -31,18 +39,8 @@ class RequestIDMiddleware(MiddlewareMixin):
         if 'favicon' in request.path:
             return response
 
-        user = getattr(request, 'user', None)
-        user_id = getattr(user, 'pk', None) or getattr(user, 'id', None)
+        logger.info(self.get_log_message(request, response))
 
-        message = 'method=%s path=%s status=%s'
-        args = (request.method, request.path, response.status_code)
-
-        if user_id:
-            message += ' user=%s'
-            args += (user_id,)
-
-        logger.info(message, *args)
-        
         try:
             del local.request_id
         except AttributeError:
