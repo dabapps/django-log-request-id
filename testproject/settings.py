@@ -20,6 +20,8 @@ MIDDLEWARE_CLASSES = [
     # ... other middleware goes here
 ] + list(getattr(global_settings, "MIDDLEWARE_CLASSES", []))
 
+MIDDLEWARE = MIDDLEWARE_CLASSES
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
