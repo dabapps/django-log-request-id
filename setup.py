@@ -14,10 +14,13 @@ name = 'django-log-request-id'
 package = 'log_request_id'
 description = 'Django middleware and log filter to attach a unique ID to every log message generated as part of a request'
 url = 'https://github.com/dabapps/django-log-request-id/'
-author = 'Jamie Matthews'
-author_email = 'jamie.matthews@gmail.com'
+author = 'DabApps'
+author_email = 'hello@dabapps.com'
 license = 'BSD'
 install_requires = ["django>=1.8"]
+
+with open('README.md') as f:
+    readme = f.read()
 
 
 def get_version(package):
@@ -68,6 +71,8 @@ setup(
     url=url,
     license=license,
     description=description,
+    long_description=readme,
+    long_description_content_type='text/markdown',
     author=author,
     author_email=author_email,
     packages=get_packages(package),

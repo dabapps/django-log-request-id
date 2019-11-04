@@ -20,3 +20,4 @@ install:
 
 script:
  - ./manage.py test
+ - pip install .
