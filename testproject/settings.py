@@ -1,3 +1,4 @@
+import django
 from django.conf import global_settings
 
 DATABASES = {
@@ -15,10 +16,16 @@ ROOT_URLCONF = "testproject.urls"
 
 INSTALLED_APPS = ["log_request_id"]
 
-MIDDLEWARE_CLASSES = [
-    'log_request_id.middleware.RequestIDMiddleware',
-    # ... other middleware goes here
-] + list(global_settings.MIDDLEWARE_CLASSES)
+if django.VERSION < (2, 0):
+    MIDDLEWARE_CLASSES = [
+        'log_request_id.middleware.RequestIDMiddleware',
+        # ... other middleware goes here
+    ] + list(global_settings.MIDDLEWARE_CLASSES)
+else:
+    MIDDLEWARE = [
+        'log_request_id.middleware.RequestIDMiddleware',
+        # ... other middleware goes here
+    ] + list(global_settings.MIDDLEWARE)
 
 LOGGING = {
     'version': 1,
