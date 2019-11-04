@@ -18,4 +18,4 @@ install:
  - pip install -r requirements.txt
 
 script:
- - DJANGO_SETTINGS_MODULE=testproject.settings django-admin.py test
+ - manage.py test
