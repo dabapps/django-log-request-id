@@ -1,14 +1,21 @@
 language: python
 python:
-  - "3.6"
-install:
- - pip install tox
- - pip install -r requirements.txt
-script:
- - tox
+  - "2.7"
+  - "3.7"
+
 env:
- - TOXENV=py27-django18
- - TOXENV=py27-django111
- - TOXENV=py37-django18
- - TOXENV=py37-django111
- - TOXENV=py37-django22
+  - DJANGO_VERSION=1.8
+  - DJANGO_VERSION=1.11
+  - DJANGO_VERSION=2.2
+
+matrix:
+  exclude:
+    - python: '2.7'
+      env: 'DJANGO_VERSION=2.2'
+
+install:
+ - pip install -U Django==$DJANGO_VERSION
+ - pip install -r requirements.txt
+
+script:
+ - DJANGO_SETTINGS_MODULE=testproject.settings django-admin.py test
