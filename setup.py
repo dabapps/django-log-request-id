@@ -7,6 +7,7 @@ from setuptools import setup
 import re
 import os
 import sys
+import codecs
 
 
 
@@ -19,7 +20,7 @@ author_email = 'hello@dabapps.com'
 license = 'BSD'
 install_requires = ["django>=1.8"]
 
-with open('README.md') as f:
+with codecs.open('README.md', encoding='utf-8') as f:
     readme = f.read()
 
 
