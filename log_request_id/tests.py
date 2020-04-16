@@ -5,6 +5,7 @@ from django.test import RequestFactory, TestCase, override_settings
 from requests import Request
 
 from log_request_id import DEFAULT_NO_REQUEST_ID, local
+from log_request_id.session import Session
 from log_request_id.middleware import RequestIDMiddleware
 from testproject.views import test_view
 
@@ -101,7 +102,6 @@ class RequestIDPassthroughTestCase(TestCase):
 
     def test_request_id_passthrough_with_custom_header(self):
         with self.settings(LOG_REQUEST_ID_HEADER='REQUEST_ID_HEADER', OUTGOING_REQUEST_ID_HEADER='OUTGOING_REQUEST_ID_HEADER'):
-            from log_request_id.session import Session
             request = self.factory.get('/')
             request.META['REQUEST_ID_HEADER'] = 'some_request_id'
             middleware = RequestIDMiddleware()
@@ -117,7 +117,6 @@ class RequestIDPassthroughTestCase(TestCase):
 
     def test_request_id_passthrough(self):
         with self.settings(LOG_REQUEST_ID_HEADER='REQUEST_ID_HEADER'):
-            from log_request_id.session import Session
             request = self.factory.get('/')
             request.META['REQUEST_ID_HEADER'] = 'some_request_id'
             middleware = RequestIDMiddleware()
@@ -133,6 +132,5 @@ class RequestIDPassthroughTestCase(TestCase):
 
     def test_misconfigured_for_sessions(self):
         def inner():
-            from log_request_id.session import Session  # noqa
             Session()
         self.assertRaises(ImproperlyConfigured, inner)
