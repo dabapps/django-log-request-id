@@ -1,8 +1,11 @@
 import logging
-from django.test import TestCase, RequestFactory
+
 from django.core.exceptions import ImproperlyConfigured
+from django.test import RequestFactory, TestCase, override_settings
 from requests import Request
 
+from log_request_id import DEFAULT_NO_REQUEST_ID, local
+from log_request_id.session import Session
 from log_request_id.middleware import RequestIDMiddleware
 from testproject.views import test_view
 
@@ -13,6 +16,12 @@ class RequestIDLoggingTestCase(TestCase):
         self.factory = RequestFactory()
         self.handler = logging.getLogger('testproject').handlers[0]
         self.handler.messages = []
+
+        # Ensure that there is nothing lurking around from previous tests
+        try:
+            del local.request_id
+        except AttributeError:
+            pass
 
     def test_id_generation(self):
         request = self.factory.get('/')
@@ -31,6 +40,17 @@ class RequestIDLoggingTestCase(TestCase):
             self.assertEqual(request.id, 'some_request_id')
             test_view(request)
             self.assertTrue('some_request_id' in self.handler.messages[0])
+
+    def test_default_no_request_id_is_used(self):
+        request = self.factory.get('/')
+        test_view(request)
+        self.assertTrue(DEFAULT_NO_REQUEST_ID in self.handler.messages[0])
+
+    @override_settings(NO_REQUEST_ID='-')
+    def test_custom_request_id_is_used(self):
+        request = self.factory.get('/')
+        test_view(request)
+        self.assertTrue('[-]' in self.handler.messages[0])
 
     def test_external_id_missing_in_http_header_should_fallback_to_generated_id(self):
         with self.settings(LOG_REQUEST_ID_HEADER='REQUEST_ID_HEADER', GENERATE_REQUEST_ID_IF_NOT_IN_HEADER=True):
@@ -82,7 +102,6 @@ class RequestIDPassthroughTestCase(TestCase):
 
     def test_request_id_passthrough_with_custom_header(self):
         with self.settings(LOG_REQUEST_ID_HEADER='REQUEST_ID_HEADER', OUTGOING_REQUEST_ID_HEADER='OUTGOING_REQUEST_ID_HEADER'):
-            from log_request_id.session import Session
             request = self.factory.get('/')
             request.META['REQUEST_ID_HEADER'] = 'some_request_id'
             middleware = RequestIDMiddleware()
@@ -98,7 +117,6 @@ class RequestIDPassthroughTestCase(TestCase):
 
     def test_request_id_passthrough(self):
         with self.settings(LOG_REQUEST_ID_HEADER='REQUEST_ID_HEADER'):
-            from log_request_id.session import Session
             request = self.factory.get('/')
             request.META['REQUEST_ID_HEADER'] = 'some_request_id'
             middleware = RequestIDMiddleware()
@@ -114,6 +132,5 @@ class RequestIDPassthroughTestCase(TestCase):
 
     def test_misconfigured_for_sessions(self):
         def inner():
-            from log_request_id.session import Session  # noqa
             Session()
         self.assertRaises(ImproperlyConfigured, inner)

@@ -6,8 +6,8 @@ try:
     from django.utils.deprecation import MiddlewareMixin
 except ImportError:
     MiddlewareMixin = object
-from log_request_id import local, REQUEST_ID_HEADER_SETTING, LOG_REQUESTS_SETTING, NO_REQUEST_ID, \
-    REQUEST_ID_RESPONSE_HEADER_SETTING, GENERATE_REQUEST_ID_IF_NOT_IN_HEADER_SETTING
+from log_request_id import local, REQUEST_ID_HEADER_SETTING, LOG_REQUESTS_SETTING, DEFAULT_NO_REQUEST_ID, \
+    REQUEST_ID_RESPONSE_HEADER_SETTING, GENERATE_REQUEST_ID_IF_NOT_IN_HEADER_SETTING, LOG_REQUESTS_NO_SETTING
 
 
 logger = logging.getLogger(__name__)
@@ -55,7 +55,7 @@ class RequestIDMiddleware(MiddlewareMixin):
         if request_id_header:
             # fallback to NO_REQUEST_ID if settings asked to use the
             # header request_id but none provided
-            default_request_id = NO_REQUEST_ID
+            default_request_id = getattr(settings, LOG_REQUESTS_NO_SETTING, DEFAULT_NO_REQUEST_ID)
 
             # unless the setting GENERATE_REQUEST_ID_IF_NOT_IN_HEADER
             # was set, in which case generate an id as normal if it wasn't

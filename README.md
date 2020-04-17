@@ -121,6 +121,12 @@ If you wish to include the request id in the response headers, add the following
 REQUEST_ID_RESPONSE_HEADER = "RESPONSE_HEADER_NAME"
 ```
 
+If you wish to change the default `request_id` in the log output, the the following settings, where `none` (default) is the value you want to be the default value in case it's missing.
+
+```python
+NO_REQUEST_ID = "none"
+```
+
 Logging all requests
 --------------------
 
