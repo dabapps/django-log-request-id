@@ -7,7 +7,8 @@ try:
 except ImportError:
     MiddlewareMixin = object
 from log_request_id import local, REQUEST_ID_HEADER_SETTING, LOG_REQUESTS_SETTING, DEFAULT_NO_REQUEST_ID, \
-    REQUEST_ID_RESPONSE_HEADER_SETTING, GENERATE_REQUEST_ID_IF_NOT_IN_HEADER_SETTING, LOG_REQUESTS_NO_SETTING
+    REQUEST_ID_RESPONSE_HEADER_SETTING, GENERATE_REQUEST_ID_IF_NOT_IN_HEADER_SETTING, LOG_REQUESTS_NO_SETTING, \
+    LOG_USER_ATTRIBUTE_SETTING
 
 
 logger = logging.getLogger(__name__)
@@ -21,7 +22,11 @@ class RequestIDMiddleware(MiddlewareMixin):
 
     def get_log_message(self, request, response):
         user = getattr(request, 'user', None)
-        user_id = getattr(user, 'pk', None) or getattr(user, 'id', None)
+        user_attribute = getattr(settings, LOG_USER_ATTRIBUTE_SETTING, False)
+        if user_attribute:
+            user_id = getattr(user, user_attribute, None)
+        else:
+            user_id = getattr(user, 'pk', None) or getattr(user, 'id', None)
         message =  'method=%s path=%s status=%s' % (request.method, request.path, response.status_code)
         if user_id:
             message += ' user=' + str(user_id)

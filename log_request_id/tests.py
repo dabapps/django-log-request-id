@@ -76,6 +76,22 @@ class RequestIDLoggingTestCase(TestCase):
             self.assertEqual(len(self.handler.messages), 2)
             self.assertTrue('fake_pk' in self.handler.messages[1])
 
+    def test_log_user_attribute(self):
+
+        class DummyUser(object):
+            pk = 'fake_pk'
+            username = 'fake_username'
+
+        with self.settings(LOG_REQUESTS=True, LOG_USER_ATTRIBUTE='username'):
+            request = self.factory.get('/')
+            request.user = DummyUser()
+            middleware = RequestIDMiddleware()
+            middleware.process_request(request)
+            response = test_view(request)
+            middleware.process_response(request, response)
+            self.assertEqual(len(self.handler.messages), 2)
+            self.assertTrue('fake_username' in self.handler.messages[1])
+
     def test_response_header_unset(self):
         with self.settings(LOG_REQUEST_ID_HEADER='REQUEST_ID_HEADER'):
             request = self.factory.get('/')
