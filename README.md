@@ -132,6 +132,11 @@ Logging all requests
 
 The `RequestIDMiddleware` also has the ability to log all requests received by the application, including some useful information such as the user ID (if present). To enable this feature, add `LOG_REQUESTS = True` to your settings. The messages are sent to the `log_request_id.middleware` logger at `INFO` level.
 
+Logging other user attributes
+--------------------
+
+If you would like to log another user attribute instead of user ID, this can be specified with the `LOG_USER_ATTRIBUTE` setting. Eg. to log the username, use: `LOG_USER_ATTRIBUTE = "username"`
+
 Passing on the ID
 -----------------
 
