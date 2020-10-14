@@ -149,6 +149,15 @@ session.get('http://myservice.myapp.com/')
 You can customise the header used in the outgoing request with the `OUTGOING_REQUEST_ID_HEADER` setting.
 
 
+Usage in views
+--------------
+
+To access the ID in views, use `request.id`. An example of this would be:
+
+    def test_view(request):
+        print(request.id)
+        return HttpResponse(f"The request ID is: {request.id}")
+
 License
 -------
 
