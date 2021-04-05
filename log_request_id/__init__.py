@@ -3,7 +3,13 @@ import threading
 __version__ = "1.6.0"
 
 
-local = threading.local()
+try:
+    from asgiref.local import Local
+except ImportError:
+    from threading import local as Local
+
+
+local = Local()
 
 
 REQUEST_ID_HEADER_SETTING = 'LOG_REQUEST_ID_HEADER'
