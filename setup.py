@@ -11,12 +11,11 @@ import codecs
 
 
 
-name = 'django-log-request-id'
+name = 'context-vars-log-request-id'
 package = 'log_request_id'
-description = 'Django middleware and log filter to attach a unique ID to every log message generated as part of a request'
-url = 'https://github.com/dabapps/django-log-request-id/'
-author = 'DabApps'
-author_email = 'hello@dabapps.com'
+description = 'Django/Daphne middleware and log filter to attach a unique ID to every log message generated as part of a request using contextvars'
+author = 'Aryan Kapoor'
+author_email = 'pro.akapoor@gmail.com'
 license = 'BSD'
 install_requires = ["django>=1.8"]
 
@@ -60,7 +59,6 @@ def get_package_data(package):
 setup(
     name=name,
     version=get_version(package),
-    url=url,
     license=license,
     description=description,
     long_description=readme,

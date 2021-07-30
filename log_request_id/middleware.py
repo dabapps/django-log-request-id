@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 class RequestIDMiddleware(MiddlewareMixin):
     def process_request(self, request):
         request_id = self._get_request_id(request)
-        local.request_id = request_id
+        self.token = local.set(request_id)
         request.id = request_id
 
     def get_log_message(self, request, response):
@@ -47,7 +47,7 @@ class RequestIDMiddleware(MiddlewareMixin):
         logger.info(self.get_log_message(request, response))
 
         try:
-            del local.request_id
+            local.reset(self.token)
         except AttributeError:
             pass
 

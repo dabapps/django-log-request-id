@@ -22,7 +22,7 @@ class Session(BaseSession):
     def prepare_request(self, request):
         """Include the request ID, if available, in the outgoing request"""
         try:
-            request_id = local.request_id
+            request_id = local.get(None)
             if self.request_id_header:
                 request.headers[self.request_id_header] = request_id
         except AttributeError:
