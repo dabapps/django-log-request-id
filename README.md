@@ -3,8 +3,7 @@ django-log-request-id
 
 **Django/Daphne middleware and log filter to attach a unique ID to every log message generated as part of a request using context vars.**
 
-**Author:** Aryan Kapoor
-
+**Author:** Jamie Matthews, [@j4mie](https://twitter.com/j4mie)
 
 [![Build Status](https://travis-ci.org/dabapps/django-log-request-id.png?branch=master)](https://travis-ci.org/dabapps/django-log-request-id)
 
