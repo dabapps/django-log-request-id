@@ -1,6 +1,7 @@
 *.pyc
 *.swp
 .DS_Store
+.idea
 /env
 build
 dist

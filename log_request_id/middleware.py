@@ -1,7 +1,9 @@
 import logging
 import uuid
+from contextlib import suppress
 
 from django.conf import settings
+
 try:
     from django.utils.deprecation import MiddlewareMixin
 except ImportError:
@@ -22,7 +24,7 @@ class RequestIDMiddleware(MiddlewareMixin):
 
     def get_log_message(self, request, response):
         user = getattr(request, 'user', None)
-        user_attribute = getattr(settings, LOG_USER_ATTRIBUTE_SETTING, False)
+        user_attribute = getattr(settings, LOG_USER_ATTRIBUTE_SETTING, '')
         if user_attribute:
             user_id = getattr(user, user_attribute, None)
         else:
@@ -46,10 +48,8 @@ class RequestIDMiddleware(MiddlewareMixin):
 
         logger.info(self.get_log_message(request, response))
 
-        try:
+        with suppress(AttributeError):
             del local.request_id
-        except AttributeError:
-            pass
 
         return response
 
@@ -72,5 +72,6 @@ class RequestIDMiddleware(MiddlewareMixin):
 
         return self._generate_id()
 
-    def _generate_id(self):
+    @staticmethod
+    def _generate_id():
         return uuid.uuid4().hex
