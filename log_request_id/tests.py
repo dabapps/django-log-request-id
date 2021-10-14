@@ -163,6 +163,7 @@ class RequestIDPassthroughTestCase(TestCase):
         self.assertRaises(ImproperlyConfigured, inner)
 
 
+# asgiref is required from Django 3.0
 if async_to_sync:
 
     class AsyncRequestIDLoggingTestCase(RequestIDLoggingTestCase):
