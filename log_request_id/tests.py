@@ -127,7 +127,3 @@ if async_to_sync:
 
         def call_view(self, request):
             return async_to_sync(test_async_view)(request)
-
-
-    class AsyncRequestIDPassthroughTestCase(RequestIDPassthroughTestCase):
-        url = "/async/"
