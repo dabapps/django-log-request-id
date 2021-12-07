@@ -10,7 +10,6 @@ from django.test import RequestFactory, TestCase, override_settings
 from requests import Request
 
 from log_request_id import DEFAULT_NO_REQUEST_ID, local
-from log_request_id.session import Session
 from log_request_id.middleware import RequestIDMiddleware
 from testproject.views import test_view, test_async_view
 
@@ -119,48 +118,6 @@ class RequestIDLoggingTestCase(TestCase):
             response = self.call_view(request)
             middleware.process_response(request, response)
             self.assertTrue(response.has_header('REQUEST_ID'))
-
-
-class RequestIDPassthroughTestCase(TestCase):
-    url = "/"
-
-    def setUp(self):
-        self.factory = RequestFactory()
-
-    def test_request_id_passthrough_with_custom_header(self):
-        with self.settings(LOG_REQUEST_ID_HEADER='REQUEST_ID_HEADER', OUTGOING_REQUEST_ID_HEADER='OUTGOING_REQUEST_ID_HEADER'):
-            request = self.factory.get(self.url)
-            request.META['REQUEST_ID_HEADER'] = 'some_request_id'
-            middleware = RequestIDMiddleware()
-            middleware.process_request(request)
-            self.assertEqual(request.id, 'some_request_id')
-            session = Session()
-            outgoing = Request('get', 'http://nowhere')
-            session.prepare_request(outgoing)
-            self.assertEqual(
-                outgoing.headers['OUTGOING_REQUEST_ID_HEADER'],
-                'some_request_id'
-            )
-
-    def test_request_id_passthrough(self):
-        with self.settings(LOG_REQUEST_ID_HEADER='REQUEST_ID_HEADER'):
-            request = self.factory.get(self.url)
-            request.META['REQUEST_ID_HEADER'] = 'some_request_id'
-            middleware = RequestIDMiddleware()
-            middleware.process_request(request)
-            self.assertEqual(request.id, 'some_request_id')
-            session = Session()
-            outgoing = Request('get', 'http://nowhere')
-            session.prepare_request(outgoing)
-            self.assertEqual(
-                outgoing.headers['REQUEST_ID_HEADER'],
-                'some_request_id'
-            )
-
-    def test_misconfigured_for_sessions(self):
-        def inner():
-            Session()
-        self.assertRaises(ImproperlyConfigured, inner)
 
 
 # asgiref is required from Django 3.0
