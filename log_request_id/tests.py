@@ -32,7 +32,7 @@ class RequestIDLoggingTestCase(TestCase):
 
     def test_id_generation(self):
         request = self.factory.get(self.url)
-        middleware = RequestIDMiddleware()
+        middleware = RequestIDMiddleware(get_response=lambda request: None)
         middleware.process_request(request)
         self.assertTrue(hasattr(request, 'id'))
         self.call_view(request)
@@ -42,7 +42,7 @@ class RequestIDLoggingTestCase(TestCase):
         with self.settings(LOG_REQUEST_ID_HEADER='REQUEST_ID_HEADER'):
             request = self.factory.get(self.url)
             request.META['REQUEST_ID_HEADER'] = 'some_request_id'
-            middleware = RequestIDMiddleware()
+            middleware = RequestIDMiddleware(get_response=lambda request: None)
             middleware.process_request(request)
             self.assertEqual(request.id, 'some_request_id')
             self.call_view(request)
@@ -62,7 +62,7 @@ class RequestIDLoggingTestCase(TestCase):
     def test_external_id_missing_in_http_header_should_fallback_to_generated_id(self):
         with self.settings(LOG_REQUEST_ID_HEADER='REQUEST_ID_HEADER', GENERATE_REQUEST_ID_IF_NOT_IN_HEADER=True):
             request = self.factory.get(self.url)
-            middleware = RequestIDMiddleware()
+            middleware = RequestIDMiddleware(get_response=lambda request: None)
             middleware.process_request(request)
             self.assertTrue(hasattr(request, 'id'))
             self.call_view(request)
@@ -76,7 +76,7 @@ class RequestIDLoggingTestCase(TestCase):
         with self.settings(LOG_REQUESTS=True):
             request = self.factory.get(self.url)
             request.user = DummyUser()
-            middleware = RequestIDMiddleware()
+            middleware = RequestIDMiddleware(get_response=lambda request: None)
             middleware.process_request(request)
             response = self.call_view(request)
             middleware.process_response(request, response)
@@ -92,7 +92,7 @@ class RequestIDLoggingTestCase(TestCase):
         with self.settings(LOG_REQUESTS=True, LOG_USER_ATTRIBUTE='username'):
             request = self.factory.get(self.url)
             request.user = DummyUser()
-            middleware = RequestIDMiddleware()
+            middleware = RequestIDMiddleware(get_response=lambda request: None)
             middleware.process_request(request)
             response = self.call_view(request)
             middleware.process_response(request, response)
@@ -103,7 +103,7 @@ class RequestIDLoggingTestCase(TestCase):
         with self.settings(LOG_REQUEST_ID_HEADER='REQUEST_ID_HEADER'):
             request = self.factory.get(self.url)
             request.META['REQUEST_ID_HEADER'] = 'some_request_id'
-            middleware = RequestIDMiddleware()
+            middleware = RequestIDMiddleware(get_response=lambda request: None)
             middleware.process_request(request)
             response = self.call_view(request)
             self.assertFalse(response.has_header('REQUEST_ID'))
@@ -112,7 +112,7 @@ class RequestIDLoggingTestCase(TestCase):
         with self.settings(LOG_REQUEST_ID_HEADER='REQUEST_ID_HEADER', REQUEST_ID_RESPONSE_HEADER='REQUEST_ID'):
             request = self.factory.get(self.url)
             request.META['REQUEST_ID_HEADER'] = 'some_request_id'
-            middleware = RequestIDMiddleware()
+            middleware = RequestIDMiddleware(get_response=lambda request: None)
             middleware.process_request(request)
             response = self.call_view(request)
             middleware.process_response(request, response)
