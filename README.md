@@ -34,11 +34,6 @@ In some cases, components further up the HTTP stack such as load balancers or pr
 
 The ID also gets added to the `HttpRequest` object that is handed to your views (as `request.id`), in case you need to use it in your application.
 
-If you need to pass on the ID to other services in a multi-tier architecture,
-the log_request_id.session module contains a wrapper for requests.Session which
-will include the ID in outgoing requests, using the same header as configured in
-your settings.
-
 Installation and usage
 ----------------------
 
@@ -136,18 +131,6 @@ Logging other user attributes
 --------------------
 
 If you would like to log another user attribute instead of user ID, this can be specified with the `LOG_USER_ATTRIBUTE` setting. Eg. to log the username, use: `LOG_USER_ATTRIBUTE = "username"`
-
-Passing on the ID
------------------
-
-```python
-from log_request_id.session import Session
-session = Session()
-session.get('http://myservice.myapp.com/')
-```
-
-You can customise the header used in the outgoing request with the `OUTGOING_REQUEST_ID_HEADER` setting.
-
 
 License
 -------
