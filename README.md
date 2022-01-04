@@ -135,7 +135,7 @@ If you would like to log another user attribute instead of user ID, this can be 
 License
 -------
 
-Copyright © 2012-2018, DabApps.
+Copyright © 2012, DabApps.
 
 All rights reserved.
 
