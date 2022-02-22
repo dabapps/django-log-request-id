@@ -5,12 +5,18 @@ try:
 except ImportError:
     async_to_sync = None
 
+from django.contrib.sessions.backends.file import SessionStore
 from django.core.exceptions import ImproperlyConfigured
 from django.test import RequestFactory, TestCase, override_settings
 
 from log_request_id import DEFAULT_NO_REQUEST_ID, local
 from log_request_id.middleware import RequestIDMiddleware
 from testproject.views import test_view, test_async_view
+
+
+class DummyUser(object):
+    pk = 'fake_pk'
+    username = 'fake_username'
 
 
 class RequestIDLoggingTestCase(TestCase):
@@ -84,20 +90,41 @@ class RequestIDLoggingTestCase(TestCase):
             self.assertTrue('fake_pk' in self.handler.messages[1])
 
     def test_log_user_attribute(self):
-
-        class DummyUser(object):
-            pk = 'fake_pk'
-            username = 'fake_username'
-
         with self.settings(LOG_REQUESTS=True, LOG_USER_ATTRIBUTE='username'):
             request = self.factory.get(self.url)
             request.user = DummyUser()
+            request.session = SessionStore("session_key")
             middleware = RequestIDMiddleware(get_response=lambda request: None)
             middleware.process_request(request)
             response = self.call_view(request)
             middleware.process_response(request, response)
             self.assertEqual(len(self.handler.messages), 2)
             self.assertTrue('fake_username' in self.handler.messages[1])
+
+    def test_log_user_attribute_anonymous_user(self):
+        with self.settings(LOG_REQUESTS=True, LOG_USER_ATTRIBUTE='username'):
+            request = self.factory.get(self.url)
+            request.session = SessionStore()
+            middleware = RequestIDMiddleware(get_response=lambda request: None)
+            middleware.process_request(request)
+            response = self.call_view(request)
+            middleware.process_response(request, response)
+            self.assertEqual(len(self.handler.messages), 2)
+            self.assertFalse('fake_username' in self.handler.messages[1])
+            self.assertFalse(request.session.accessed)
+
+    def test_log_user_attribute_unset(self):
+        with self.settings(LOG_REQUESTS=True, LOG_USER_ATTRIBUTE=None):
+            request = self.factory.get(self.url)
+            request.user = DummyUser()
+            request.session = SessionStore("session_key")
+            middleware = RequestIDMiddleware(get_response=lambda request: None)
+            middleware.process_request(request)
+            response = self.call_view(request)
+            middleware.process_response(request, response)
+            self.assertEqual(len(self.handler.messages), 2)
+            self.assertFalse('fake_username' in self.handler.messages[1])
+            self.assertFalse(request.session.accessed)
 
     def test_response_header_unset(self):
         with self.settings(LOG_REQUEST_ID_HEADER='REQUEST_ID_HEADER'):
