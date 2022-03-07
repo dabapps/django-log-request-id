@@ -23,20 +23,22 @@ class RequestIDMiddleware(MiddlewareMixin):
     def get_log_message(self, request, response):
         message = 'method=%s path=%s status=%s' % (request.method, request.path, response.status_code)
 
+        # `LOG_USER_ATTRIBUTE_SETTING` accepts False/None to skip setting attribute
+        #  but falls back to 'pk' if value is not set
+        user_attribute = getattr(settings, LOG_USER_ATTRIBUTE_SETTING, 'pk')
+        if not user_attribute:
+            return message
+
+        # avoid accessing session if it is empty
         if getattr(request, 'session', None) and request.session.is_empty():
-            # avoid accessing session if it is empty
             return message
 
         user = getattr(request, 'user', None)
         if not user:
             return message
 
-        # `LOG_USER_ATTRIBUTE_SETTING` accepts False/None to skip setting attribute
-        #  but falls back to 'pk' if value is not set
-        user_attribute = getattr(settings, LOG_USER_ATTRIBUTE_SETTING, 'pk')
-        if user_attribute:
-            user_id = getattr(user, user_attribute, None) or getattr(user, 'id', None)
-            message += ' user=' + str(user_id)
+        user_id = getattr(user, user_attribute, None) or getattr(user, 'id', None)
+        message += ' user=' + str(user_id)
         return message
 
     def process_response(self, request, response):
