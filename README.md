@@ -52,7 +52,7 @@ Add the `log_request_id.filters.RequestIDFilter` to your `LOGGING` setting. You'
 
 If none of the above made sense, study [Django's logging documentation](https://docs.djangoproject.com/en/dev/topics/logging/).
 
-An example `LOGGING` setting is below:
+Here is a complete `LOGGING` setting. Note that the key `filters` occurs twice.
 
 ```python
 LOGGING = {
