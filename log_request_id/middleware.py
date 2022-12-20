@@ -2,6 +2,8 @@ import logging
 import uuid
 
 from django.conf import settings
+from django.http import HttpResponse
+
 try:
     from django.utils.deprecation import MiddlewareMixin
 except ImportError:
@@ -15,6 +17,12 @@ logger = logging.getLogger(__name__)
 
 
 class RequestIDMiddleware(MiddlewareMixin):
+    def __init__(self, get_response=None):
+        if get_response is None:
+            get_response = HttpResponse()
+
+        super().__init__(get_response)
+
     def process_request(self, request):
         request_id = self._get_request_id(request)
         local.request_id = request_id
