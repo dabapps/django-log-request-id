@@ -12,6 +12,7 @@ from django.test import RequestFactory, TestCase, override_settings
 from log_request_id import DEFAULT_NO_REQUEST_ID, local
 from log_request_id.middleware import RequestIDMiddleware
 from testproject.views import test_view, test_async_view
+from unittest import mock
 
 
 class DummyUser(object):
@@ -35,6 +36,12 @@ class RequestIDLoggingTestCase(TestCase):
             del local.request_id
         except AttributeError:
             pass
+
+    @mock.patch("log_request_id.middleware.RequestIDMiddleware._generate_id")
+    def test_request(self, mock_generate_id):
+        mock_generate_id.return_value = "test_id"
+        self.client.get(self.url)
+        self.assertTrue("test_id" in self.handler.messages[0])
 
     def test_id_generation(self):
         request = self.factory.get(self.url)
