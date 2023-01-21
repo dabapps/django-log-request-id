@@ -130,7 +130,7 @@ The `RequestIDMiddleware` also has the ability to log all requests received by t
 Logging other user attributes
 --------------------
 
-If you would like to log another user attribute instead of user ID, this can be specified with the `LOG_USER_ATTRIBUTE` setting. Eg. to log the username, use: `LOG_USER_ATTRIBUTE = "username"`
+If you would like to log another user attribute instead of user ID, this can be specified with the `LOG_USER_ATTRIBUTE` setting. Eg. to log the username, use: `LOG_USER_ATTRIBUTE = "username"`. If this setting is set to `None`, no user attribute will be logged.
 
 License
 -------
