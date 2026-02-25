@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=77.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "django-log-request-id"
+version = "2.1.0"
+description = "Django middleware and log filter to attach a unique ID to every log message generated as part of a request"
+readme = "README.md"
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
+authors = [
+  { name = "DabApps", email = "hello@dabapps.com" },
+]
+requires-python = ">=3.8"
+dependencies = [
+  "django>=1.8",
+]
+
+[project.urls]
+Homepage = "https://github.com/dabapps/django-log-request-id/"
+Repository = "https://github.com/dabapps/django-log-request-id/"
+
+[tool.setuptools.packages.find]
+include = ["log_request_id*"]

@@ -1,7 +1,5 @@
 import threading
 
-__version__ = "2.1.0"
-
 
 try:
     from asgiref.local import Local
